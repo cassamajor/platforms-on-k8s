@@ -1,13 +1,13 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  name: service-pipeline-run-1
+  name: service-pipeline-run-2
   annotations:
     kubernetes.io/ssh-auth: kubernetes.io/dockerconfigjson
 spec:
   params:
   - name: target-registry
-    value: docker.io/salaboy
+    value: docker.io/fauxsys
   - name: target-service
     value: notifications-service
   - name: target-version 

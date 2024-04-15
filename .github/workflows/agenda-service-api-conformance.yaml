@@ -7,7 +7,7 @@ jobs:
   api-compliance-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out Git repositor
+    - name: Check out Git repository
       uses: actions/checkout@v1
     - name: Set up Node.js
       uses: actions/setup-node@v1

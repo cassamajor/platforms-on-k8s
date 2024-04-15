@@ -15,7 +15,7 @@ To run the pipelines remotely on a Kubernetes Cluster you can use [KinD](https:/
 
 Because all the services are very similar, the same pipeline definition can be used and parameterized to build each service separately. 
 
-You can clone this repository and from the [Confernece Application directory](../../conference-application/) and run the pipelines locally.  
+You can clone this repository and from the [Conference Application directory](../../conference-application/) and run the pipelines locally.  
 
 You can run any defined task inside the `service-pipeline.go` file:
 

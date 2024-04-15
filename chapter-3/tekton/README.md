@@ -14,13 +14,13 @@ Follow the next steps in order to install and setup Tekton in your Kubernetes Cl
 1. **Install Tekton Pipelines**
 
 ```
-  kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.45.0/release.yaml
+kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 ```
 
 1. **Install Tekton Dashboard (optional)**
 
 ```
-kubectl apply -f https://github.com/tektoncd/dashboard/releases/download/v0.33.0/release.yaml
+kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/release.yaml
 ```
 You can access the dashboard by port-forwarding using `kubectl`:
 
@@ -217,8 +217,8 @@ spec:
         value: "$(tasks.cat.results.messageFromFile)"
 ```
 
-It end up not being that easy to fetch a file, read its content and then use our previously defined hello-world taks to print the content of the file that we have fetched. 
-With pipelines we have the flexiblity to add new tasks if needed to do transformations or further processing of the inputs and outputs of each individual tasks. 
+It turns out it wasn't that easy to fetch a file, read its content and then use our previously defined hello-world task to print the content of the file that we have fetched. 
+With pipelines we have the flexibility to add new tasks if needed to do transformations or further processing of the inputs and outputs of each individual tasks. 
 
 For this example, we are using the `wget` Task that we installed from the Tekton Hub, a task that is defined inline called `cat` that basically fetch the content of the downloaded file and store it into a Tekton Result that can be referenced later into our `hello-world-task`. 
 
@@ -253,7 +253,7 @@ spec:
   
 ```
 
-Because our tasks needs to download and store files in the filesystem, we are using Tekton workspaces as abstractions to provide storage for our `PipelineRun`s. As we did before with our `TaskRun` we can also provide parameters for the `PipelineRun` allowing us to parameterize each run to use different configurations, or in this case different files. 
+Because our task needs to download and store files in the filesystem, we are using Tekton workspaces as abstractions to provide storage for our `PipelineRun`s. As we did before with our `TaskRun` we can also provide parameters for the `PipelineRun` allowing us to parameterize each run to use different configurations, or in this case different files. 
 
 Both with `PipelineRuns` and `TaskRuns` you will need to generate a new resource name for each run. As if you try to reapply the same resource twice, the Kubernetes API server will not allow you to mutate the existing resource with the same name. 
 
@@ -310,7 +310,7 @@ An example Service Pipeline definition can be found in this directory in a file 
 ![Service Pipeline](imgs/service-pipeline.png)
 
 
-The example Service Pipelines uses [`ko`] to build and publish the container image for our Service. This pipeline is very specify to our Go Services, as if we were building services using a different programming language we will need to use other tools. The example service pipeline can be parameterized to build different services.
+The example Service Pipelines uses `kaniko` to build and publish the container image for our Service. This pipeline is very specific to our Go Services; if we were building services using a different programming language we would need to use other tools. The example service pipeline can be parameterized to build different services.
 
 To be able to run this Service Pipeline you need to set up credentials to a Container Registry, this means allowing the pipelines to push containers to a container registry such as Docker Hub. To authenticate with a container registry from a Tekton Task/Pipeline [check the official documentation](https://tekton.dev/docs/how-to-guides/kaniko-build-push/#container-registry-authentication).
 
@@ -321,20 +321,20 @@ kubectl create secret docker-registry docker-credentials --docker-server=https:/
 ```
 
 
-Then we will install the `Git Clone` and the `ko` Tekton Tasks: 
+Then we will install the `Git Clone` and the `kaniko` Tekton Tasks: 
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml
-kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/ko/0.1/ko.yaml
+kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/kaniko/0.6/kaniko.yaml
 ```
 
-Let's install our Service Pipeline defintion to our cluster:
+Let's install our Service Pipeline definition to our cluster:
 
 ```
 kubectl apply -f service-pipeline.yaml
 ```
 
-Now we can create new pipeline instances to build and publish our services container images. The folllowing `PipelineRun` resource configure our Service Pipeline to build the Notifications Service.
+Now we can create new pipeline instances to build and publish our services container images. The following `PipelineRun` resource configure our Service Pipeline to build the Notifications Service.
 
 ```yaml
 apiVersion: tekton.dev/v1
