@@ -207,7 +207,7 @@ stating-environment-redis-master-0                                1/1     Runnin
 
 ## Changing the Application's configuration in the Staging Environment
 
-To update the version of configurations of your services, you can update the files located in the [Chart.yaml](argo-cd/staging/Chart.yaml) file or [values.yaml](argo-cd/staging/values.yaml) file located inside the [staging](staging/) directory.
+To update the version of configurations of your services, you can update the files located in the [Chart.yaml](argo-cd/staging/Chart.yaml) file or [values.yaml](argo-cd/staging/values.yaml) file located inside the [staging](argo-cd/staging/) directory.
 
 For the sake of this example, you can change the application configuration by updating the ArgoCD application details and its parameters. 
 

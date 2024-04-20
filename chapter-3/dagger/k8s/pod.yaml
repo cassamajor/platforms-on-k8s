@@ -5,6 +5,6 @@ metadata:
 spec:
   containers:
   - name: dagger
-    image: registry.dagger.io/engine:v0.3.13
+    image: registry.dagger.io/engine:v0.11.1
     securityContext:
       privileged: true

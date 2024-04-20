@@ -7,7 +7,7 @@ _🌍 Available in_: [English](README.md) | [中文 (Chinese)](README-zh.md)
 
 ---
 
-This step-by-step tutorial use Crossplane to Provision the Redis, PostgreSQL, and Kafka instances for our application services. 
+This step-by-step tutorial uses Crossplane to Provision the Redis, PostgreSQL, and Kafka instances for our application services. 
 
 Using Crossplane and Crossplane Compositions, we aim to unify how these components are provisioned, hiding away where these components are for the end users (application teams).
 
@@ -24,7 +24,7 @@ Let's install [Crossplane](https://crossplane.io) into its own namespace using H
 helm repo add crossplane-stable https://charts.crossplane.io/stable
 helm repo update
 
-helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --version 1.15.0 --wait 
+helm install crossplane a--namespace crossplane-system --create-namespace crossplane-stable/crossplane --version 1.15.0 --wait 
 ```
 
 Then install the Crossplane Helm provider, along with a new `ClusterRoleBinding` so the Helm Provider can install Charts on our behalf. 

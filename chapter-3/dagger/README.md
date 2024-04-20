@@ -31,19 +31,19 @@ The following tasks are defined for all the services:
 
 If you run `go run service-pipeline.go all notifications-service v1.0.0-dagger` all the tasks will be executed. Before being able to run all the tasks you will need to make sure that you have all the pre-requisites set, as for pushing to a Container Registry you will need to provide appropriate credentials. 
 
-You can safely run `go run service-pipeline.go build notifications-service` which doesn't require you to set any credentials. You can set up your container registry and username using envorionment variables, for example: 
+You can safely run `go run service-pipeline.go build notifications-service` which doesn't require you to set any credentials. You can set up your container registry and username using environment variables, for example: 
 
 ```shell
 CONTAINER_REGISTRY=<YOUR_REGISTRY> CONTAINER_REGISTRY_USER=<YOUR_USER> go run service-pipeline.go publish notifications-service v1.0.0-dagger
 ```
-This require you to be logged in to the registry where you want to publish your container images to.
+This requires you to be logged in to the registry where you want to publish your container images to.
 
-Now, for development purposes, this is quite convinient, because you can now build your service code in the same way that your CI (Continuous Integration) system will do. But you don't want to run in production container images that were created in your developer's laptop right? 
+Now, for development purposes, this is quite convenient, because you can now build your service code in the same way that your CI (Continuous Integration) system will do. But you don't want to run in production container images that were created in your developer's laptop right? 
 The next section shows a simple setup of running Dagger pipelines remotely inside a Kubernetes Cluster. 
 
 ## Running your pipelines remotely on Kubernetes
 
-The Dagger Pipeline Engine can be run anywhere where you can run containers, that means that it can runs in Kubernetes without the need of complicated setups. 
+The Dagger Pipeline Engine can be run anywhere where you can run containers, that means that it can run in Kubernetes without the need of complicated setups. 
 
 For this tutorial you need to have a Kubernetes Cluster, you can create one using [KinD as we did for Chapter 2](../../chapter-2/README.md#creating-a-local-cluster-with-kubernetes-kind).
 
@@ -52,7 +52,7 @@ In this short tutorial we will run the pipelines that we were running locally wi
 Let's run the Dagger Pipeline Engine inside Kubernetes by creating a Pod with Dagger: 
 
 ```shell
-kubectl run dagger --image=registry.dagger.io/engine:v0.3.13 --privileged=true
+kubectl run dagger --image=registry.dagger.io/engine:v0.11.1 --privileged=true
 ```
 
 Alternatively, you can apply the `chapter-3/dagger/k8s/pod.yaml` manifest using `kubectl apply -f chapter-3/dagger/k8s/pod.yaml`.
@@ -80,13 +80,13 @@ Where `<podname>` is `dagger` (because we created the pod manually), `<context>`
 export _EXPERIMENTAL_DAGGER_RUNNER_HOST="kube-pod://dagger?context=kind-dev&namespace=default&container=dagger"
 ```
 
-Notice also that my KinD cluster (named `kind-dev`) didn't had anything related to Pipelines. 
+Notice also that my KinD cluster (named `kind-dev`) does not have anything related to Pipelines. 
 
 Now if you run in any of the projects: 
 ```shell
 go run service-pipeline.go build notifications-service
 ```
-Or to test your service remotly: 
+Or to test your service remotely: 
 
 ```shell
 go run service-pipeline.go test notifications-service
@@ -97,4 +97,4 @@ In a separate tab you can tail the logs from the Dagger engine by running:
 kubectl logs -f dagger
 ```
 
-The build will happen remotely inside the Cluster. If you were running this against a remote Kubernetes Cluster (not KinD), there will not be need for you to have a local Container Runtime to build your services and their containers. 
+The build will happen remotely inside the Cluster. If you were running this against a remote Kubernetes Cluster (not KinD), there is not a need for you to have a local Container Runtime to build your services and their containers. 
