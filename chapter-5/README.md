@@ -24,7 +24,7 @@ Let's install [Crossplane](https://crossplane.io) into its own namespace using H
 helm repo add crossplane-stable https://charts.crossplane.io/stable
 helm repo update
 
-helm install crossplane a--namespace crossplane-system --create-namespace crossplane-stable/crossplane --version 1.15.0 --wait 
+helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --version 1.15.0 --wait 
 ```
 
 Then install the Crossplane Helm provider, along with a new `ClusterRoleBinding` so the Helm Provider can install Charts on our behalf. 
