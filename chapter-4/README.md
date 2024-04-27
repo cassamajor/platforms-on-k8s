@@ -119,24 +119,17 @@ Go ahead and edit the Application Details / Parameters and select `values-debug-
 
 <img src="imgs/argocd-new-values.png" width="600">
 
-Because we were using port-forwarding, you might need to run this command again: 
-
-```shell
-kubectl port-forward svc/frontend -n staging 8081:80
-```
-
-This is due, the Frontend Service Pod is going to be replaced by the newly configured version, hence the port-forwarding needs to be restarted to target the new pod. 
-
 Once the Frontend is up and running you should see the Debug tab in the Back Office section:
 
 ![](imgs/app-debug.png)
 
 ## Clean up
 
-If you want to get rid of the KinD Cluster created for this tutorial, you can run:
+If you want to get rid of the Kubernetes cluster created for this tutorial, you can run:
 
 ```shell
-kind delete clusters dev
+terraform destroy --auto-approve
+omnictl cluster template delete --file cluster-template.yaml 
 ```
 
 ## Next Steps
