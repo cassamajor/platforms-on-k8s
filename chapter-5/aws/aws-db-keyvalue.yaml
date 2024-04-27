@@ -1,7 +1,7 @@
 apiVersion: salaboy.com/v1alpha1
 kind: Database
 metadata:
-  name: aws-db-keyavalue
+  name: aws-db-keyvalue
 spec:
   compositionSelector:
     matchLabels:

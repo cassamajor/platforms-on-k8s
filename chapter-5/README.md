@@ -18,13 +18,20 @@ Application teams should be able to request these resources using a declarative 
 
 To install Crossplane, you need to have a Kubernetes Cluster; you can create one using KinD as we did for you [Chapter 2](../chapter-2/README.md#creating-a-local-cluster-with-kubernetes-kind). 
 
-Let's install [Crossplane](https://crossplane.io) into its own namespace using Helm: 
+Let's install [Crossplane](https://crossplane.io) into its own namespace using Helm.
+
+First, create the `crossplane-system` namespace:
+
+```shell
+kubectl apply -f crossplane/namespace.yaml
+```
+
 
 ```shell
 helm repo add crossplane-stable https://charts.crossplane.io/stable
 helm repo update
 
-helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --version 1.15.0 --wait 
+helm install crossplane --namespace crossplane-system crossplane-stable/crossplane --version 1.15.2 --wait 
 ```
 
 Then install the Crossplane Helm provider, along with a new `ClusterRoleBinding` so the Helm Provider can install Charts on our behalf. 
