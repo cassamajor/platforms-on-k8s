@@ -12,116 +12,18 @@ We will define the configuration of the Staging environment using a Git reposito
 
 ## Prerequisites and installation
 
-- We need a Kubernetes Cluster. We will use Kubernetes [KinD](https://kind.sigs.k8s.io/) in this tutorial
-- Install ArgoCD in your cluster, [follow this instructions](https://argo-cd.readthedocs.io/en/stable/getting_started/) and optionally install the `argocd` CLI 
+- We need a Kubernetes Cluster. We will use Talos Linux in this tutorial
 - You can fork/copy [this repository](http://github.com/salaboy/platforms-on-k8s/) as if you want to change the configuration for the application, you will need to have write access to the repository. We will be using the directory `chapter-4/argo-cd/staging/`
 
-[Create a KinD Cluster as we did in Chapter 2](../chapter-2/README.md#creating-a-local-cluster-with-kubernetes-kind).
+- Create a Kubernetes Cluster: `omnictl cluster template sync --file cluster-template.yaml`
 
-
-Once you have the cluster up and running with the nginx-ingress controller, let's install Argo CD in the cluster: 
-
-```shell
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-```
-
-You should see something like this: 
-
-```shell
-> kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-namespace/argocd created
-customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io created
-customresourcedefinition.apiextensions.k8s.io/applicationsets.argoproj.io created
-customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io created
-serviceaccount/argocd-application-controller created
-serviceaccount/argocd-applicationset-controller created
-serviceaccount/argocd-dex-server created
-serviceaccount/argocd-notifications-controller created
-serviceaccount/argocd-redis created
-serviceaccount/argocd-repo-server created
-serviceaccount/argocd-server created
-role.rbac.authorization.k8s.io/argocd-application-controller created
-role.rbac.authorization.k8s.io/argocd-applicationset-controller created
-role.rbac.authorization.k8s.io/argocd-dex-server created
-role.rbac.authorization.k8s.io/argocd-notifications-controller created
-role.rbac.authorization.k8s.io/argocd-server created
-clusterrole.rbac.authorization.k8s.io/argocd-application-controller created
-clusterrole.rbac.authorization.k8s.io/argocd-server created
-rolebinding.rbac.authorization.k8s.io/argocd-application-controller created
-rolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller created
-rolebinding.rbac.authorization.k8s.io/argocd-dex-server created
-rolebinding.rbac.authorization.k8s.io/argocd-notifications-controller created
-rolebinding.rbac.authorization.k8s.io/argocd-redis created
-rolebinding.rbac.authorization.k8s.io/argocd-server created
-clusterrolebinding.rbac.authorization.k8s.io/argocd-application-controller created
-clusterrolebinding.rbac.authorization.k8s.io/argocd-server created
-configmap/argocd-cm created
-configmap/argocd-cmd-params-cm created
-configmap/argocd-gpg-keys-cm created
-configmap/argocd-notifications-cm created
-configmap/argocd-rbac-cm created
-configmap/argocd-ssh-known-hosts-cm created
-configmap/argocd-tls-certs-cm created
-secret/argocd-notifications-secret created
-secret/argocd-secret created
-service/argocd-applicationset-controller created
-service/argocd-dex-server created
-service/argocd-metrics created
-service/argocd-notifications-controller-metrics created
-service/argocd-redis created
-service/argocd-repo-server created
-service/argocd-server created
-service/argocd-server-metrics created
-deployment.apps/argocd-applicationset-controller created
-deployment.apps/argocd-dex-server created
-deployment.apps/argocd-notifications-controller created
-deployment.apps/argocd-redis created
-deployment.apps/argocd-repo-server created
-deployment.apps/argocd-server created
-statefulset.apps/argocd-application-controller created
-networkpolicy.networking.k8s.io/argocd-application-controller-network-policy created
-networkpolicy.networking.k8s.io/argocd-applicationset-controller-network-policy created
-networkpolicy.networking.k8s.io/argocd-dex-server-network-policy created
-networkpolicy.networking.k8s.io/argocd-notifications-controller-network-policy created
-networkpolicy.networking.k8s.io/argocd-redis-network-policy created
-networkpolicy.networking.k8s.io/argocd-repo-server-network-policy created
-networkpolicy.networking.k8s.io/argocd-server-network-policy created
-```
-
-You can access the ArgoCD User Interface by using `port-forward`, in a **new terminal** run:
-
-```shell
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
-
-**Note**: you need to wait for the ArgoCD pods to be started. The first time you do this, it will take more time because it needs to fetch the container images from the internet.
-
-You can access the user interface by pointing your browser to [http://localhost:8080](http://localhost:8080)
-
-<img src="imgs/argocd-warning.png" width="600">
-
-**Note**: by default the installation works using HTTP and not HTTPS, hence you need to accept the warning (hit the "Advanced Button" on Chrome) and proceed (**Process to localhost unsafe**). 
-
-<img src="imgs/argocd-proceed.png" width="600">
-
-That should take you to the Login Page:
-
-<img src="imgs/argocd-login.png" width="600">
-
-The user is `admin`, and to get the password for the ArgoCD Dashboard by running: 
-
-```shell
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-```
+You can access the user interface by viewing Exposed Services in the cluster overview.
 
 Once in, you should see the empty home screen: 
 
 <img src="imgs/argocd-dashboard.png" width="600">
 
 Let's now set up our Staging Environment.
-
 
 # Setting up our application for the Staging Environment
 
@@ -130,17 +32,15 @@ For this tutorial, we will use a single namespace to represent our Staging Envir
 First, let's create a namespace for our Staging Environment:
 
 ```shell
-kubectl create ns staging
+kubectl apply -f argo-cd/staging-kube/namespace.yaml
 ```
 
 You should see something like this: 
 
 ```shell
-> kubectl create ns staging
+> kubectl apply -f argo-cd/staging-kube/namespace.yaml
 namespace/staging created
 ```
-
-Note: Alternatively, you can use the "Auto Create Namespace" option in the ArgoCD application creation. 
 
 Once you have Argo CD installed, you can access the user interface to set up the project. 
 
