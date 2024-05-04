@@ -24,7 +24,7 @@ spec:
             chart:
               name: vcluster
               repository: https://charts.loft.sh
-              version: "0.15.7"
+              version: "0.19.5"
             values:
               fallbackHostDns: true
               multiNamespaceMode:

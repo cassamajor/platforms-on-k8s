@@ -27,9 +27,9 @@ An environment represents a Kubernetes cluster where the Conference Application 
 
 For this tutorial, we will define an Environment API and a Crossplane Composition that uses the Helm Provider to create a new instance of `vcluster`. 
 
-Check the Crossplane Composite Resource Definition (XRD) for our [Environments here](resources/env-resource-definition.yaml) and the Crossplane [Composition here](resources/composition-devenv.yaml). This resource configures the provisioning of a new `vcluster` using the Crossplane Helm Provider, [check this configuration here](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/composition-devenv.yaml#L24). When a new `vcluster` is created then the composition install our Conference Application into it, once again using the Crossplane Helm Provider, but this time configured [pointing to the just created `vcluster` APIs](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/composition-devenv.yaml#L87), you can [check this here](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/composition-devenv.yaml#L117).
+Check the Crossplane Composite Resource Definition (XRD) for our [Environments here](resources/definitions/env-resource-definition.yaml) and the Crossplane [Composition here](resources/compositions/composition-devenv.yaml). This resource configures the provisioning of a new `vcluster` using the Crossplane Helm Provider, [check this configuration here](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/compositions/composition-devenv.yaml#L24). When a new `vcluster` is created then the composition install our Conference Application into it, once again using the Crossplane Helm Provider, but this time configured [pointing to the just created `vcluster` APIs](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/compositions/composition-devenv.yaml#L87), you can [check this here](https://github.com/salaboy/platforms-on-k8s/blob/main/chapter-6/resources/compositions/composition-devenv.yaml#L117).
 
-Let's install both XRD by running: 
+Let's install the Environment XRD by running: 
 
 ```shell
 kubectl apply -f resources/definitions
@@ -83,10 +83,9 @@ environment.salaboy.com/team-a-dev-env created
 You can always check the state of your Environments by running: 
 
 ```shell
-> kubectl get env
+> kubectl get env -n environments
 NAME             CONNECT-TO             TYPE          INFRA   DEBUG   SYNCED   READY   CONNECTION-SECRET   AGE
 team-a-dev-env   team-a-dev-env-jp7j4   development   true    true    True     False   team-a-dev-env      1s
-
 ```
 
 You can check that Crossplane is creating and managing resources related to the composition by running: 
