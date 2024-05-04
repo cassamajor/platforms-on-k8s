@@ -3,4 +3,25 @@ kind: Provider
 metadata:
   name: provider-aws
 spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-aws:v0.47.1
+  package: xpkg.upbound.io/upbound/provider-family-aws:v0.41.0
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-family-aws
+spec:
+  package: crossplane/provider-family-aws:v1.3.1
+  controllerConfigRef:
+    name: provider-family-aws
+---
+apiVersion: aws.upbound.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: aws-creds
+      key: creds

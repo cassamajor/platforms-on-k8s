@@ -10,29 +10,9 @@ _🌍 Available in_: [English](README.md) | [中文 (Chinese)](README-zh.md)
 
 In this step-by-step tutorial, we will use Crossplane to Provision Redis, PostgreSQL, and Kafka in AWS.
 
-## Installing Crossplane
-
-To install Crossplane, you need to have a Kubernetes Cluster; you can create one using KinD as we did for you [Chapter 2](../chapter-2/README.md#creating-a-local-cluster-with-kubernetes-kind). 
-
-Let's install [Crossplane](https://crossplane.io) into its own namespace using Helm: 
-
-```shell
-helm repo add crossplane-stable https://charts.crossplane.io/stable
-helm repo update
-
-helm install crossplane --namespace crossplane-system --create-namespace crossplane-stable/crossplane --wait
-```
-
-Install the `kubectl crossplane` plugin: 
-
-```shell
-curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
-sudo mv kubectl-crossplane /usr/local/bin
-```
-
 Then install the Crossplane AWS provider: 
 ```shell
-kubectl crossplane install provider crossplane/provider-aws:v0.21.2
+kubectl apply -f provider/aws-provider.yaml
 ```
 
 After a few seconds, if you check the configured providers, you should see the Helm `INSTALLED` and `HEALTHY`: 
@@ -77,19 +57,7 @@ generic aws-secret \
 Create a ProviderConfig 
 
 ```shell
-cat <<EOF | kubectl apply -f -
-apiVersion: aws.upbound.io/v1beta1
-kind: ProviderConfig
-metadata:
-  name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: crossplane-system
-      name: aws-secret
-      key: creds
-EOF
+kubectl apply -f aws-provider-config.yaml
 ```
 
 ### Let's provision Application Infrastructure
