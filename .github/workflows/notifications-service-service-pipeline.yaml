@@ -1,4 +1,4 @@
-name: C4P Service - Service Pipeline
+name: Notifications Service - Service Pipeline
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   publish:
-    name: C4P Service - Service Pipeline 
+    name: Notifications Service - Service Pipeline 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v5
@@ -20,8 +20,8 @@ jobs:
         with:
           filters: |
             src:
-              - 'conference-application/c4p-service/**'
+              - 'conference-application/notifications-service/**'
 
       - if: steps.changes.outputs.src == 'true'
         uses: ko-build/setup-ko@v0.6
-        run: cd conference-application/c4p-service && ko build -t v0.9.9-gh
+        run: cd conference-application/notifications-service && ko build -t v0.9.9-gh
