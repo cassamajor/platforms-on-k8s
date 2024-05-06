@@ -24,4 +24,4 @@ jobs:
 
       - if: steps.changes.outputs.src == 'true'
         uses: ko-build/setup-ko@v0.6
-        run: cd conference-application/notifications-service && ko build -t v0.9.9-gh
+        run: cd conference-application/notifications-service && ko build -t v0.9.9-gh --base-import-paths # https://ko.build/configuration/#naming-images

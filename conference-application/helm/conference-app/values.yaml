@@ -1,14 +1,14 @@
 services:
-  registry: salaboy
-  tag: v1.0.0
+  registry: ghcr.io/cassamajor
+  tag: v0.9.9-gh
   frontend: 
-    image: frontend-go-1739aa83b5e69d4ccb8a5615830ae66c
+    image: frontend-go
   agenda: 
-    image: agenda-service-0967b907d9920c99918e2b91b91937b3 
+    image: agenda-service
   c4p: 
-    image: c4p-service-a3dc0474cbfa348afcdf47a8eee70ba9
+    image: c4p-service
   notifications: 
-    image: notifications-service-0e27884e01429ab7e350cb5dff61b525
+    image: notifications-service
 install:
   infrastructure: true
   ingress: true
