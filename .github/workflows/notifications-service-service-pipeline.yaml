@@ -15,15 +15,6 @@ jobs:
           check-latest: true
       - uses: actions/checkout@v4
 
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            src:
-              - 'conference-application/notifications-service/**'
+      - uses: ko-build/setup-ko@v0.6
 
-      - if: steps.changes.outputs.src == 'true'
-        uses: ko-build/setup-ko@v0.6
-
-      - if: steps.changes.outputs.src == 'true'
-        run: cd conference-application/notifications-service && ko build -t v0.9.9-gh --base-import-paths # https://ko.build/configuration/#naming-images
+      - run: cd conference-application/notifications-service && ko build -t v0.9.9-gh --base-import-paths # https://ko.build/configuration/#naming-images
