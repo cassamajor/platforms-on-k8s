@@ -74,6 +74,8 @@ kind: Service
 metadata:
   name: frontend
   namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.services.frontend.annotations | nindent 4 }}
 spec:
   selector:
     app: frontend

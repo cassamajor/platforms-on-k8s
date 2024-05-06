@@ -82,6 +82,8 @@ kind: Service
 metadata:
   name: c4p-service
   namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.services.c4p.annotations | nindent 4 }}
 spec:
   selector:
     app: c4p-service

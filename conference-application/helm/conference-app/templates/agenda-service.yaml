@@ -78,6 +78,8 @@ kind: Service
 metadata:
   name: agenda-service
   namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.services.agenda.annotations | nindent 4 }}
 spec:
   selector:
     app: agenda-service

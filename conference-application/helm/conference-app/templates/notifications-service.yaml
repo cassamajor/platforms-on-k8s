@@ -64,6 +64,8 @@ kind: Service
 metadata:
   name: notifications-service
   namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.services.notifications.annotations | nindent 4 }}
 spec:
   selector:
     app: notifications-service

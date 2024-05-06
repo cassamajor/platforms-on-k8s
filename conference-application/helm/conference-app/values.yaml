@@ -3,12 +3,25 @@ services:
   tag: v0.9.9-gh
   frontend: 
     image: frontend-go
-  agenda: 
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50083"
+      omni-kube-service-exposer.sidero.dev/label: Frontend
+  agenda:
     image: agenda-service
-  c4p: 
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50084"
+      omni-kube-service-exposer.sidero.dev/label: Agenda
+  c4p:
     image: c4p-service
-  notifications: 
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50085"
+      omni-kube-service-exposer.sidero.dev/label: Call For Proposals
+  notifications:
     image: notifications-service
+    annotations:
+      omni-kube-service-exposer.sidero.dev/port: "50086"
+      omni-kube-service-exposer.sidero.dev/label: Notifications
+
 install:
   infrastructure: true
   ingress: true
